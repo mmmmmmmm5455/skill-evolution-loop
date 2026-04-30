@@ -1,2 +1,6 @@
 {"ts": "2026-04-30T20:54:20.232882+00:00", "orchestration_id": "EVO-20260430-205420", "skill": "skill-tester", "decision": {"action": "KEEP_CURRENT", "reason": "Score 70 >= threshold 60"}}
 {"ts": "2026-04-30T20:54:44.239640+00:00", "orchestration_id": "EVO-20260430-205432", "skill": "nonexistent-skill-999", "decision": {"action": "REPORT_GAP", "reason": "No alternatives found for 'nonexistent-skill-999'"}}
+{"ts": "2026-04-30T23:15:27.840843+00:00", "orchestration_id": "EVO-20260430-231527", "skill": "caveman", "decision": {"action": "KEEP_CURRENT", "reason": "Score 80 >= threshold 60"}}
+{"ts": "2026-04-30T23:16:37.583570+00:00", "orchestration_id": "EVO-20260430-231605", "skill": "code-audit", "decision": {"action": "REPORT_GAP", "reason": "No alternatives found for 'code-audit'"}}
+{"ts": "2026-04-30T23:17:04.097057+00:00", "orchestration_id": "EVO-20260430-231704", "skill": "auto-recovery", "decision": {"action": "KEEP_CURRENT", "reason": "Score 75 >= threshold 50"}}
+{"ts": "2026-04-30T23:17:40.182555+00:00", "orchestration_id": "EVO-20260430-231740", "skill": "caveman", "decision": {"action": "KEEP_CURRENT", "reason": "Score 80 >= threshold 60"}}
