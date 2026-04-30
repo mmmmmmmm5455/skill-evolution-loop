@@ -24,3 +24,9 @@ desktop.ini
 .env
 *.secret
 credentials.*
+
+# Clausidian auto-generated (mirrors Obsidian vault)
+.clausidian/
+_graph.md
+_tags.md
+projects/
