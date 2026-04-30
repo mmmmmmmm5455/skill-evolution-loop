@@ -1,0 +1,22 @@
+{
+  "description": "Boundary test cases for 180-cell decision matrix test. Each case maps to exactly one D-row.",
+  "cases": [
+    {"old": 35, "candidate": 75, "delta": 40, "expected_row": "D1", "desc": "Critical failure, strong candidate, large delta"},
+    {"old": 35, "candidate": 78, "delta": 43, "expected_row": "D1", "desc": "Previously uncovered: old<40, candidate in 75-79, large delta"},
+    {"old": 45, "candidate": 82, "delta": 37, "expected_row": "D2", "desc": "Borderline old, strong candidate"},
+    {"old": 55, "candidate": 83, "delta": 28, "expected_row": "D3", "desc": "Degraded, good candidate, moderate delta"},
+    {"old": 55, "candidate": 75, "delta": 20, "expected_row": "D4", "desc": "Previously uncovered: old<60, candidate 70-79, delta>=10"},
+    {"old": 58, "candidate": 62, "delta": 4, "expected_row": "D5", "desc": "Marginal improvement, high uncertainty"},
+    {"old": 55, "candidate": 72, "delta": 17, "expected_row": "D4", "desc": "Strong candidate in 70-79 range"},
+    {"old": 55, "candidate": 68, "delta": 13, "expected_row": "D5", "desc": "Candidate in 60-69, moderate delta"},
+    {"old": 55, "candidate": 71, "delta": 8, "expected_row": "D6", "desc": "Candidate decent but delta too small"},
+    {"old": 55, "candidate": 55, "delta": 0, "expected_row": "D7", "desc": "Candidate also bad"},
+    {"old": 65, "candidate": 88, "delta": 23, "expected_row": "D8", "desc": "Decent original, excellent candidate"},
+    {"old": 70, "candidate": 80, "delta": 10, "expected_row": "D9", "desc": "Candidate better but not enough"},
+    {"old": 70, "candidate": 50, "delta": -20, "expected_row": "D10", "desc": "Candidate worse"},
+    {"old": 80, "candidate": 92, "delta": 12, "expected_row": "D11", "desc": "Good original, excellent candidate"},
+    {"old": 80, "candidate": 88, "delta": 8, "expected_row": "D12", "desc": "Good original, candidate not enough better"},
+    {"old": 50, "candidate": 40, "delta": -10, "expected_row": "D13", "desc": "Candidate below minimum bar"},
+    {"old": 35, "candidate": 74, "delta": 39, "expected_row": "D14", "desc": "Catch-all: candidate misses D1 threshold by 1"}
+  ]
+}

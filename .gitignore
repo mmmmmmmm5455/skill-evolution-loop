@@ -1,0 +1,26 @@
+# Logs
+logs/*.jsonl
+logs/*.json
+!logs/.gitkeep
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Archive backups (gitignored - too large)
+*.tar.gz
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets
+.env
+*.secret
+credentials.*

@@ -1,0 +1,5 @@
+{
+  "blacklist": [],
+  "reason": "Skills listed here are permanently excluded from the evolution loop. Add skill names to the array to exclude them.",
+  "example": ["skill-to-preserve-as-is", "manually-maintained-skill"]
+}

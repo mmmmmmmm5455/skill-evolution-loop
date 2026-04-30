@@ -1,0 +1,21 @@
+{
+  "skill_name": "test-broken-skill",
+  "overall_score": 35,
+  "module_scores": {
+    "tool_usage": 30,
+    "prompt_alignment": 40,
+    "output_schema": 25,
+    "error_handling": 45,
+    "self_description": 35,
+    "edge_case_coverage": 30,
+    "security_audit": 60
+  },
+  "failing_modules": ["tool_usage", "output_schema", "edge_case_coverage"],
+  "degraded_modules": ["prompt_alignment", "self_description"],
+  "execution_time_ms": 15000,
+  "schema_valid": true,
+  "exit_code": 0,
+  "test_timestamp": "2026-04-30T14:00:00Z",
+  "previous_score": 72,
+  "model_id": "claude-sonnet-4-6"
+}

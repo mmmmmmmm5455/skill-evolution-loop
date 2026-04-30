@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "search_results.schema.json",
+  "title": "Search Results",
+  "description": "Output of evolution loop search phase. Overwritten per run.",
+  "type": "object",
+  "required": ["skill_name", "trigger_score", "trigger_id", "candidates", "candidate_count", "search_duration_ms", "timestamp"],
+  "properties": {
+    "skill_name": {"type": "string"},
+    "trigger_score": {"type": "number"},
+    "trigger_id": {"type": "string"},
+    "failing_modules": {"type": "array", "items": {"type": "string"}},
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "source", "source_path", "rank_score"],
+        "properties": {
+          "name": {"type": "string"},
+          "source": {"type": "string", "enum": ["archive", "installed", "websearch", "github"]},
+          "source_path": {"type": "string"},
+          "rank_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "component_scores": {
+            "type": "object",
+            "properties": {
+              "c1": {"type": "number"},
+              "c2": {"type": "number"},
+              "c3": {"type": "number"},
+              "c4": {"type": "number"},
+              "c5": {"type": "number"},
+              "c6": {"type": "number"}
+            }
+          },
+          "dependencies": {"type": "array", "items": {"type": "string"}},
+          "install_ready": {"type": "boolean"}
+        }
+      }
+    },
+    "candidate_count": {"type": "integer"},
+    "search_duration_ms": {"type": "number"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "rate_limited_sources": {"type": "array", "items": {"type": "string"}}
+  }
+}

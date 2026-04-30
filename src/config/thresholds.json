@@ -1,0 +1,106 @@
+{
+  "trigger": {
+    "T1_overall_critical": 40,
+    "T2_overall_degraded_min": 40,
+    "T2_overall_degraded_max": 60,
+    "T3_multi_module_count": 3,
+    "T3_module_threshold": 50,
+    "T4_single_module_catastrophic": 30,
+    "T5_regression_drop": 15
+  },
+  "module_failure": {
+    "M1_syntax_critical": 50,
+    "M1_syntax_degraded": 64,
+    "M2_tool_critical": 40,
+    "M2_tool_degraded": 59,
+    "M3_prompt_critical": 50,
+    "M3_prompt_degraded": 64,
+    "M4_output_critical": 40,
+    "M4_output_degraded": 59,
+    "M5_dependency_critical": 40,
+    "M5_dependency_degraded": 59,
+    "M6_invocation_critical": 50,
+    "M6_invocation_degraded": 64,
+    "M7_security_critical": 50,
+    "M7_security_degraded": 64
+  },
+  "decision_matrix": {
+    "D1": {"old_max": 40, "candidate_min": 75, "delta_min": 35, "action": "auto_replace"},
+    "D2": {"old_max": 50, "candidate_min": 80, "delta_min": 30, "action": "auto_replace"},
+    "D3": {"old_max": 60, "candidate_min": 80, "delta_min": 20, "action": "auto_replace_notify"},
+    "D4": {"old_max": 60, "candidate_min": 70, "candidate_max": 79, "delta_min": 10, "action": "human_review"},
+    "D5": {"old_max": 60, "candidate_min": 60, "candidate_max": 69, "delta_min": 5, "action": "human_review_marginal"},
+    "D6": {"old_max": 60, "candidate_min": 70, "delta_max": 10, "action": "keep_original"},
+    "D7": {"old_max": 60, "candidate_max": 60, "action": "keep_original"},
+    "D8": {"old_min": 60, "old_max": 75, "candidate_min": 85, "delta_min": 10, "action": "human_review"},
+    "D9": {"old_min": 60, "old_max": 75, "candidate_min": 60, "candidate_max": 84, "action": "keep_original"},
+    "D10": {"old_min": 60, "old_max": 75, "candidate_max": 60, "action": "keep_original"},
+    "D11": {"old_min": 76, "candidate_min": 90, "delta_min": 14, "action": "human_review"},
+    "D12": {"old_min": 76, "action": "keep_original"},
+    "D13": {"candidate_max": 50, "action": "reject_candidate"},
+    "D14": {"action": "catch_all_discard"}
+  },
+  "llm_confidence": {
+    "runs_per_candidate": 3,
+    "confidence_level": 0.95,
+    "hysteresis_margin": 5
+  },
+  "search": {
+    "rank_threshold_strong": 0.70,
+    "rank_threshold_weak": 0.50,
+    "max_candidates": 3,
+    "match_criteria_min": 3,
+    "archive_timeout_ms": 10000,
+    "installed_timeout_ms": 5000,
+    "websearch_timeout_ms": 30000,
+    "github_timeout_ms": 30000
+  },
+  "lock": {
+    "lock_dir": ".claude/skills/.locks",
+    "ttl_seconds": 60
+  },
+  "concurrency": {
+    "max_simultaneous_loops": 3,
+    "queue_timeout_seconds": 3600
+  },
+  "rate_limit": {
+    "websearch_per_minute": 20,
+    "websearch_per_hour": 200,
+    "github_per_minute": 50,
+    "backoff_initial_ms": 1000,
+    "backoff_max_ms": 8000,
+    "backoff_multiplier": 2
+  },
+  "timeouts": {
+    "loop_total_seconds": 900,
+    "candidate_test_seconds": 120,
+    "post_replace_validation_seconds": 300,
+    "lock_stale_seconds": 60
+  },
+  "debounce": {
+    "window_seconds": 3600,
+    "max_resets_per_24h": 5,
+    "score_fluctuation_noise": 5
+  },
+  "rollback": {
+    "R4a_cascade_test_count": 3,
+    "R4b_passive_window_hours": 24,
+    "core_skill_dependent_threshold": 5,
+    "restored_score_tolerance": 3
+  },
+  "backup": {
+    "max_per_skill": 50,
+    "min_per_skill": 1,
+    "compress_after_days": 30,
+    "evict_after_days": 90
+  },
+  "human_review": {
+    "sla_days": 3,
+    "auto_reject_on_expiry": true
+  },
+  "sanitization": {
+    "skill_name_pattern": "^[a-zA-Z0-9_-]+$",
+    "max_length": 64,
+    "windows_reserved": ["CON","PRN","AUX","NUL","COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9","LPT1","LPT2","LPT3","LPT4","LPT5","LPT6","LPT7","LPT8","LPT9"]
+  }
+}

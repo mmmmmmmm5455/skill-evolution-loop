@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evolution_log.schema.json",
+  "title": "Evolution Log Entry",
+  "description": "Single line in evolution_log.jsonl. Append-only. Secrets must be scrubbed before write.",
+  "type": "object",
+  "required": ["ts", "skill", "event"],
+  "properties": {
+    "ts": {"type": "string", "format": "date-time"},
+    "skill": {"type": "string", "minLength": 1, "maxLength": 64},
+    "event": {
+      "type": "string",
+      "enum": [
+        "trigger", "input_invalid", "search_start", "search_complete", "no_candidates",
+        "install", "install_failed", "test_start", "test_complete", "candidate_rejected_pretest",
+        "all_candidates_failed_test", "decision", "backup", "replace", "post_validate",
+        "revert", "rate_limited", "archive_integrity_failure", "loop_crash", "loop_throttle",
+        "human_review_queued", "human_review_expired", "input_invalid"
+      ]
+    },
+    "trigger_id": {"type": "string", "enum": ["T1","T2","T3","T4","T5"]},
+    "old_score": {"type": "number"},
+    "new_score": {"type": "number"},
+    "delta": {"type": "number"},
+    "failing_modules": {"type": "array", "items": {"type": "string"}},
+    "candidates_found": {"type": "integer"},
+    "top_rank_score": {"type": "number"},
+    "sources": {"type": "array", "items": {"type": "string"}},
+    "candidate": {"type": "string"},
+    "candidate_score": {"type": "number"},
+    "ci_lower": {"type": "number"},
+    "ci_upper": {"type": "number"},
+    "score_variance": {"type": "number"},
+    "action": {"type": "string"},
+    "row": {"type": "string"},
+    "reason": {"type": "string"},
+    "backup_path": {"type": "string"},
+    "restore_path": {"type": "string"},
+    "sha256_valid": {"type": "boolean"},
+    "regression": {"type": "boolean"},
+    "status": {"type": "string"},
+    "affected_skills": {"type": "array", "items": {"type": "string"}},
+    "duration_ms": {"type": "number"},
+    "cost_estimate_usd": {"type": "number"},
+    "exit_code": {"type": "integer"},
+    "last_phase": {"type": "string"},
+    "secrets_scrubbed": {"type": "boolean"}
+  }
+}

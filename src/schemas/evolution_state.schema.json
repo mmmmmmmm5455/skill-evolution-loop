@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evolution_state.schema.json",
+  "title": "Evolution State",
+  "description": "Per-skill debounce, block, and retry state. One file per skill.",
+  "type": "object",
+  "required": ["skill_name", "created_at", "updated_at"],
+  "properties": {
+    "skill_name": {"type": "string"},
+    "phase": {"type": "string", "enum": ["idle", "trigger", "search", "install", "test", "decide", "replace", "validate", "revert", "blocked", "crashed"]},
+    "current_step": {"type": "string"},
+    "last_triggered_monotonic_ms": {"type": "number"},
+    "last_triggered_wallclock": {"type": "string", "format": "date-time"},
+    "last_trigger_id": {"type": "string"},
+    "debounce_reset_count_24h": {"type": "integer"},
+    "blocked": {"type": "boolean"},
+    "block_reason": {"type": "string"},
+    "retry_at": {"type": "string", "format": "date-time"},
+    "consecutive_f1_count": {"type": "integer"},
+    "last_test_timestamp": {"type": "string", "format": "date-time"},
+    "checkpoint_data": {"type": "object"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}
