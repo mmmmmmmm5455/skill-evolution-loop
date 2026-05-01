@@ -1,0 +1,29 @@
+name: CI — skill-evolution-loop
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Bash syntax check
+        shell: bash
+        run: |
+          for f in *.sh; do
+            echo "Checking $f"
+            bash -n "$f" || exit 1
+          done
+      - name: Python syntax check
+        run: python -c "import py_compile; py_compile.compile('evolution_loop.py', doraise=True)"
+      - name: Run test suite
+        shell: bash
+        run: bash test_loop.sh
