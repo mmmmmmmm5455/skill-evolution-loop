@@ -26,12 +26,16 @@ else
 fi
 
 # ── Test 2: Dry-run on existing skill ─────────────────────────────────────
-echo ""; echo "--- Test 2: Dry-run ---"
-output=$(python evolution_loop.py --skill caveman --dry-run 2>&1)
-if echo "$output" | python -c "import json,sys; d=json.load(sys.stdin); assert 'dry_run' in d" 2>/dev/null; then
-  pass "Dry-run executes without crash"
+echo ""; echo "--- Test 2: Read-only dry-run ---"
+DECISIONS_BEFORE=$(git hash-object decisions.jsonl)
+if output=$(python evolution_loop.py --skill caveman --dry-run 2>&1); then
+  if echo "$output" | python -c "import json,sys; d=json.load(sys.stdin); assert d['dry_run'] and d['decision']['action'] == 'DRY_RUN_ONLY'"; then
+    pass "Dry-run returns the explicit no-effects preview"
+  else
+    fail "Dry-run returned an invalid preview"
+  fi
 else
-  fail "Dry-run failed: $output"
+  fail "Dry-run command failed before producing valid JSON"
 fi
 
 # ── Test 3: All 5 step functions importable ────────────────────────────────
@@ -85,17 +89,18 @@ else
 fi
 
 # ── Test 6: Output verification ────────────────────────────────────────────
-echo ""; echo "--- Test 6: Output files ---"
-if ls decisions.jsonl 2>/dev/null; then
-  pass "decisions.jsonl exists ($(wc -l < decisions.jsonl) entries)"
+echo ""; echo "--- Test 6: Read-only contract ---"
+if [[ "$DECISIONS_BEFORE" == "$(git hash-object decisions.jsonl)" ]]; then
+  pass "Dry-run did not modify decisions.jsonl"
 else
-  fail "decisions.jsonl missing"
+  fail "Dry-run changed the decision log"
 fi
 
-for f in $(ls "$HOME/.claude/bus/evo_test_"*.json 2>/dev/null | head -3); do
-  echo "  BUS: $(basename "$f")"
-done
-pass "Bus test input files written"
+if python -B -X utf8 -m unittest discover -s tests -p 'test_dry_run_contract.py' -q; then
+  pass "Dry-run performs no Bus, install, external or log writes"
+else
+  fail "Dry-run read-only contract failed"
+fi
 
 # ── Summary ────────────────────────────────────────────────────────────────
 echo ""; echo "=============================================="
