@@ -2,9 +2,12 @@ name: CI — skill-evolution-loop
 
 on:
   push:
-    branches: [main]
+    branches: [master, 'feature/**']
   pull_request:
-    branches: [main]
+    branches: [master]
+
+permissions:
+  contents: read
 
 jobs:
   validate:
@@ -27,3 +30,6 @@ jobs:
       - name: Run test suite
         shell: bash
         run: bash test_loop.sh
+      - name: Verify CI branch contract
+        shell: pwsh
+        run: python -B -X utf8 -m unittest discover -s tests -p test_master_workflow_trigger.py -v
