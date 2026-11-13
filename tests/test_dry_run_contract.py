@@ -7,6 +7,10 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+import json
+import os
+import subprocess
+import sys
 from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -65,6 +69,25 @@ class DryRunContracts(unittest.TestCase):
              patch.object(ev,"log_decision",side_effect=AssertionError("writes log")) as log:
             self.assertEqual(ev.run_loop("caveman",60,True)["decision"]["action"],"DRY_RUN_ONLY")
             for x in (install,test,discover,network,log):x.assert_not_called()
+
+    def test_actual_cli_in_clean_home_never_writes_bus_or_log(self):
+        env=dict(os.environ)
+        env["HOME"]=str(self.dir)
+        env["USERPROFILE"]=str(self.dir)
+        original_log=ROOT/"decisions.jsonl"
+        previous=original_log.read_bytes()
+        proc=subprocess.run(
+            [sys.executable,"-B","-X","utf8",str(ROOT/"evolution_loop.py"),
+             "--skill","caveman","--dry-run"],
+            cwd=ROOT,env=env,capture_output=True,text=True,
+            encoding="utf-8",errors="replace",timeout=20,
+        )
+        self.assertEqual(proc.returncode,0,proc.stderr)
+        result=json.loads(proc.stdout)
+        self.assertEqual(result["decision"]["action"],"DRY_RUN_ONLY")
+        self.assertTrue(result["dry_run"])
+        self.assertFalse((self.dir/".claude").exists())
+        self.assertEqual(original_log.read_bytes(),previous)
 
     def test_reject_path_traversal_in_skill_name(self):
         with self.assertRaises(ValueError):
