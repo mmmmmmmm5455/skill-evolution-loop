@@ -19,6 +19,7 @@ Architecture:
 import argparse
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
@@ -72,6 +73,31 @@ def run_loop(skill_name: str, threshold: int, dry_run: bool) -> dict:
     }
 
     # ── Step 1: Test current skill ─────────────────────────────────────────
+    # Safety preview: no Bus, decision log, skill discovery, install or model calls.
+    # Structural proxy scores are NOT true skill-tester evaluations.
+    if dry_run:
+        if not isinstance(skill_name, str) or not re.fullmatch(
+            r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}", skill_name
+        ):
+            raise ValueError("Unsafe skill name for dry-run")
+        skill_path = SKILLS_DIR / skill_name / "SKILL.md"
+        exists = skill_path.is_file()
+        result["steps"] = {
+            "1_test": {
+                "status": "READ_ONLY_PROXY",
+                "exists": exists,
+                "score_proxy": _estimate_score(skill_path) if exists else None,
+            },
+            "2_discover": {"status": "SKIPPED_NO_NETWORK"},
+            "3_install": {"status": "SKIPPED_NO_FILE_WRITES"},
+            "4_retest": {"status": "SKIPPED_NO_LIVE_RETEST"},
+        }
+        result["decision"] = {
+            "action": "DRY_RUN_ONLY",
+            "reason": "Not a real score or live skill test; no files, network, installs, or model calls",
+        }
+        return result
+
     step1 = step_test(skill_name)
     result["steps"]["1_test"] = step1
     old_score = step1.get("score", 0)
